@@ -1,0 +1,148 @@
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+ul,
+ol {
+  padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+article > * + * {
+  margin-top: 1em;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+.container {
+  width: 1020px;
+  padding: 14px;
+  margin: auto;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 29px;
+}
+
+.header__link {
+  margin-right: 70px;
+  font-family: Inter, sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.header__input {
+  min-width: 350px;
+  min-height: 32px;
+  padding-left: 48px;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 4px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #000000;
+}
+
+.header__input::-webkit-input-placeholder {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #000000;
+}
+
+.header__input:-ms-input-placeholder {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #000000;
+}
+
+.header__input::-ms-input-placeholder {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #000000;
+}
+
+.header__input::placeholder {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #000000;
+}
+
+.header__search_button {
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  -webkit-transform: translate(180px, 4px);
+          transform: translate(180px, 4px);
+}
+
+.header__burger_button {
+  width: 40px;
+  height: 30px;
+  margin-left: auto;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+/*# sourceMappingURL=main.css.map */
