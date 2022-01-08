@@ -241,12 +241,25 @@ function scrollUpButton(target) {
 // ------------------------------------------------------------
 const loadingDiv = document.querySelector("#loading");
 function showSpinner() {
-  console.log("show");
-  console.log(loadingDiv);
   loadingDiv.style.visibility = "visible";
 }
 
 function hideSpinner() {
-  console.log("hide");
   loadingDiv.style.visibility = "hidden";
+}
+// -------------------------------------------------------------
+const burger = document.querySelector(".header__burger_button");
+burger.addEventListener("click", () => {
+  menuHandler();
+});
+
+function menuHandler() {
+  const burgerIcon = document.querySelector(".header__burger_icon");
+  burgerIcon.classList.toggle("hide");
+
+  const crossIcon = document.querySelector(".header__burger_cross_icon");
+  crossIcon.classList.toggle("hide");
+
+  const menu = document.querySelector(".menu__list");
+  menu.classList.toggle("menu__list_hidden");
 }

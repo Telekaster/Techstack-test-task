@@ -58,4 +58,17 @@
   cursor: pointer;
   background: none;
   border: none;
+  // border: 1px solid green;
+}
+
+.header__burger_icon {
+}
+
+.header__burger_cross_icon {
+  position: absolute;
+  transform: translate(-7px, -6px);
+}
+
+.hide {
+  display: none;
 }

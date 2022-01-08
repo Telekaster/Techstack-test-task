@@ -1,0 +1,47 @@
+.menu_area {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin-left: 91px;
+
+  //   border: 1px solid green;
+}
+
+.menu__list {
+  display: flex;
+  align-items: center;
+  width: 264px;
+  position: relative;
+  right: 0px;
+
+  transition: right 500ms;
+}
+
+.menu__list_hidden {
+  display: flex;
+  align-items: center;
+  position: relative;
+  right: -280px;
+}
+
+.menu__item {
+  font-family: $mainFont;
+  font-size: 14px;
+  line-height: 1.21;
+  color: $menuColor;
+}
+
+.menu__link {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: $menuColor;
+}
+
+.menu__link:hover {
+  text-decoration: underline;
+}
+
+.menu__item:not(:last-child) {
+  margin-right: 60px;
+}

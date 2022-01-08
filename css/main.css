@@ -162,6 +162,70 @@ select {
   border: none;
 }
 
+.header__burger_cross_icon {
+  position: absolute;
+  -webkit-transform: translate(-7px, -6px);
+          transform: translate(-7px, -6px);
+}
+
+.hide {
+  display: none;
+}
+
+.menu_area {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin-left: 91px;
+}
+
+.menu__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 264px;
+  position: relative;
+  right: 0px;
+  -webkit-transition: right 500ms;
+  transition: right 500ms;
+}
+
+.menu__list_hidden {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  right: -280px;
+}
+
+.menu__item {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #000000;
+}
+
+.menu__link {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #000000;
+}
+
+.menu__link:hover {
+  text-decoration: underline;
+}
+
+.menu__item:not(:last-child) {
+  margin-right: 60px;
+}
+
 .main_news {
   padding: 0;
   margin-bottom: 30px;
