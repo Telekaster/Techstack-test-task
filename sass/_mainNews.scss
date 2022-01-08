@@ -65,6 +65,10 @@
   color: $titleColor;
 }
 
+.main_news__link:hover {
+  text-decoration: underline;
+}
+
 .main_news__image_area {
   width: 458px;
   margin: auto;

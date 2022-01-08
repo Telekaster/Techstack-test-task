@@ -84,25 +84,47 @@ async function getTrending() {
     const { headline, bodyText, firstPublicationDate } = article;
 
     const img = article.main.split('"')[5];
+
     const item = document.createElement("li");
     item.classList.add("other_news__item");
-    item.insertAdjacentHTML(
+
+    const div = document.createElement("div");
+    div.classList.add("other_news__date_area");
+
+    const p = document.createElement("p");
+    p.classList.add("other_news__date");
+    p.textContent = formatDate(firstPublicationDate);
+
+    const link = document.createElement("a");
+    link.setAttribute("id", i.id);
+    link.setAttribute("href", "");
+    link.classList.add("other_news__link");
+    link.textContent = "Read more";
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      location.hash = i.id;
+    });
+
+    const articleTag = document.createElement("article");
+    articleTag.insertAdjacentHTML(
       "afterbegin",
-      `<article>
+      `
       <div class="other_news__image_area">
         <img class="other_news__image" src=${img}></img>
       </div >
 
       <h3 class='other_news__title'>${headline}</h3>
       <div class='other_news__text_area'>
-     
-          <p class='other_news__text'>${bodyText}</p>
+        <p class='other_news__text'>${bodyText}</p>
       </div>
-      <div class='other_news__date_area'>
-          <p class='other_news__date'>${formatDate(firstPublicationDate)}</p>
-          <a class='other_news__link' href='#' id = "${i.id}";>Read more</a>
-      </div></article>`
+
+
+      `
     );
+    div.appendChild(p);
+    div.appendChild(link);
+    articleTag.appendChild(div);
+    item.appendChild(articleTag);
     list.appendChild(item);
   });
 }
@@ -113,21 +135,34 @@ async function getArticleById(id) {
   )
     .then((response) => response.json())
     .then((response) => {
-      // console.log(response.response.results.find((item) => item.id === id));
       return response.response.results.find((item) => item.id === id);
     });
-  // console.log(result);
+
   const article = result.fields;
+  const { headline, byline, firstPublicationDate, body } = article;
   console.log(article);
+  console.log(body);
 
   const imageUrl = article.main.split('"')[5];
-  console.log(imageUrl);
 
   const mainDiv = document.querySelector("#action_area");
   mainDiv.insertAdjacentHTML(
     "afterbegin",
     `<div class='main_article__image_area'> 
       <img class="main_article__image" src=${imageUrl} />
+    </div>
+    
+    <div class="article_container">
+      <h1 class="main_article__title">${headline}</h1>
+      <div class="main_article__author_area">
+        <p>
+          <span class="main_article__author">Written by ${byline}</span>
+          <span class='main_article__date'>${formatDate(
+            firstPublicationDate
+          )}</span>
+          </p>
+      </div>
+      <div class="main_article__text">${body}</div>
     </div>`
   );
 }
