@@ -3,6 +3,7 @@
   position: relative;
   overflow: hidden;
   margin-left: 91px;
+  width: 340px;
 
   //   border: 1px solid green;
 }
@@ -14,14 +15,14 @@
   position: relative;
   right: 0px;
 
-  transition: right 500ms;
+  transition: right 400ms;
 }
 
 .menu__list_hidden {
   display: flex;
   align-items: center;
   position: relative;
-  right: -280px;
+  right: -335px;
 }
 
 .menu__item {
@@ -39,7 +40,7 @@
 }
 
 .menu__link:hover {
-  text-decoration: underline;
+  color: $hoverColor;
 }
 
 .menu__item:not(:last-child) {

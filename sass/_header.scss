@@ -16,6 +16,10 @@
   color: $menuColor;
 }
 
+.header__link:hover {
+  color: $hoverColor;
+}
+
 .header__input {
   min-width: 350px;
   min-height: 32px;
@@ -50,6 +54,12 @@
   transform: translate(180px, 4px);
 }
 
+.header__search_button:hover,
+.header__burger_button:hover,
+.header__burger_cross_icon:hover {
+  fill: $hoverColor;
+}
+
 .header__burger_button {
   width: 40px;
   height: 30px;
@@ -58,10 +68,6 @@
   cursor: pointer;
   background: none;
   border: none;
-  // border: 1px solid green;
-}
-
-.header__burger_icon {
 }
 
 .header__burger_cross_icon {
