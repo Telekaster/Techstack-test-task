@@ -1,54 +1,84 @@
 location.hash = "/trending";
-const mainDiv = document.querySelector("#action_area");
+const trendNews = document.querySelector("#action_area");
+const otherNews = document.querySelector(".other_news");
 
 window.onhashchange = () => {
   const buttonUp = document.querySelector(".scroll_up__button");
   buttonUp.classList.toggle("scroll_up__button_hidden");
-
   const categoriesMenu = document.querySelector(".categories_menu");
   categoriesMenu.classList.add("categories_menu__hidden");
-
   const burgerIcon = document.querySelector(".header__burger_icon");
   burgerIcon.classList.remove("hide");
-
   const crossIcon = document.querySelector(".header__burger_cross_icon");
   crossIcon.classList.add("hide");
-
   const menu = document.querySelector(".menu__list");
   menu.classList.add("menu__list_hidden");
 
-  const target = document.querySelector("#action_area");
-
-  // mainDiv.innerHTML = "";
+  trendNews.innerHTML = "";
+  otherNews.innerHTML = "";
 
   switch (location.hash) {
     case "#/trending":
-      getFreshOfArticles("trending", mainDiv);
-      getArticles("trending");
-      // const target = document.querySelector("#action_area");
-      scrollUpButton(target);
+      getFreshOfArticles("trending", trendNews);
+      getArticles("trending", otherNews);
+      scrollUpButton(otherNews);
       break;
 
     case "#/sport":
-      getFreshOfArticles("sport", mainDiv);
-      // const mainDiv = document.querySelector("#action_area");
-      mainDiv.innerHTML = "";
-      getArticles("sport");
-      // const target = document.querySelector("#action_area");
-      scrollUpButton(target);
+      getFreshOfArticles("sport", trendNews);
+      getArticles("sport", otherNews);
+      scrollUpButton(trendNews);
+      break;
+
+    case "#/world":
+      getFreshOfArticles("world", trendNews);
+      getArticles("world", otherNews);
+      scrollUpButton(otherNews);
+      break;
+
+    case "#/covid":
+      getFreshOfArticles("covid", trendNews);
+      getArticles("covid", otherNews);
+      scrollUpButton(trendNews);
+      break;
+    case "#/business":
+      getFreshOfArticles("business", trendNews);
+      getArticles("business", otherNews);
+      scrollUpButton(trendNews);
+      break;
+
+    case "#/politics":
+      getFreshOfArticles("politics", trendNews);
+      getArticles("politics", otherNews);
+      scrollUpButton(trendNews);
+      break;
+    case "#/science":
+      getFreshOfArticles("science", trendNews);
+      getArticles("science", otherNews);
+      scrollUpButton(trendNews);
+      break;
+
+    case "#/religion":
+      getFreshOfArticles("religion", trendNews);
+      getArticles("religion", otherNews);
+      scrollUpButton(trendNews);
+      break;
+
+    case "#/health":
+      getFreshOfArticles("health", trendNews);
+      getArticles("health", otherNews);
+      scrollUpButton(trendNews);
       break;
 
     default:
-      // const mainDiv = document.querySelector("#action_area");
-      mainDiv.innerHTML = "";
+      trendNews.innerHTML = "";
+      otherNews.innerHTML = "";
       getArticleById(getPath());
       break;
   }
 };
 
 async function getFreshOfArticles(category, root) {
-  console.log(root);
-  console.log(category);
   showSpinner();
   const resultOfFetch = await fetch(
     `https://content.guardianapis.com/search?q=${category}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
@@ -57,7 +87,6 @@ async function getFreshOfArticles(category, root) {
       return response.json();
     })
     .then((response) => {
-      hideSpinner();
       return response;
     });
 
@@ -96,26 +125,6 @@ async function getFreshOfArticles(category, root) {
       </article>`
   );
 
-  // const title = document.querySelector(".main_news__title");
-  // title.textContent = freshTrending.fields.headline;
-
-  // const text = document.querySelector(".main_news__text");
-  // text.textContent = freshTrending.fields.bodyText;
-
-  // const date = document.querySelector(".main_news__date");
-  // date.textContent = formatDate(freshTrending.webPublicationDate);
-
-  // const image = document.querySelector(".main_news__image");
-  // image.setAttribute("src", imageUrl);
-
-  // const link = document.querySelector(".main_news__link");
-  // link.setAttribute("id", `/${freshTrending.id}`);
-
-  // link.addEventListener("click", (e) => {
-  //   e.preventDefault();
-  //   location.hash = freshTrending.id;
-  // });
-
   const link = document.querySelector(".main_news__link");
   link.addEventListener("click", (e) => {
     e.preventDefault();
@@ -123,12 +132,13 @@ async function getFreshOfArticles(category, root) {
   });
 }
 
-async function getArticles(category) {
+async function getArticles(category, root) {
   const resultOfFetch = await fetch(
     `https://content.guardianapis.com/search?q=${category}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
   )
     .then((response) => response.json())
     .then((response) => {
+      hideSpinner();
       return response;
     });
   const articles = resultOfFetch.response.results;
@@ -144,8 +154,8 @@ async function getArticles(category) {
   });
 
   articles.splice(dontNeededIndex, 1);
-
-  const list = document.querySelector(".other_news__list");
+  const list = document.createElement("ul");
+  list.classList.add("other_news__list");
 
   articles.map((i) => {
     const article = i.fields;
@@ -185,16 +195,16 @@ async function getArticles(category) {
       <div class='other_news__text_area'>
         <p class='other_news__text'>${bodyText}</p>
       </div>
-
-
       `
     );
+
     div.appendChild(p);
     div.appendChild(link);
     articleTag.appendChild(div);
     item.appendChild(articleTag);
     list.appendChild(item);
   });
+  root.appendChild(list);
 }
 
 async function getArticleById(id) {
@@ -283,6 +293,7 @@ function scrollUpButton(target) {
   };
 
   const up = document.querySelector(".scroll_up__button");
+  up.classList.add("scroll_up__button_hidden");
 
   const header = document.querySelector(".header");
   up.addEventListener("click", () => {
@@ -332,7 +343,7 @@ function menuHandler() {
 }
 
 // -------------------------------------------------------------
-// Меню категорий
+// Меню категорий_____
 categories.addEventListener("click", () => {
   categories.classList.toggle("categories_active");
   categoriesMenuHandler();
