@@ -1,25 +1,57 @@
 location.hash = "/trending";
+const mainDiv = document.querySelector("#action_area");
 
 window.onhashchange = () => {
   const buttonUp = document.querySelector(".scroll_up__button");
   buttonUp.classList.toggle("scroll_up__button_hidden");
 
-  if (location.hash === "#/trending") {
-    getFreshOfTrending();
-    getTrending();
-    const target = document.querySelector("#action_area");
-    scrollUpButton(target);
-  } else {
-    const mainDiv = document.querySelector("#action_area");
-    mainDiv.innerHTML = "";
-    getArticleById(getPath());
+  const categoriesMenu = document.querySelector(".categories_menu");
+  categoriesMenu.classList.add("categories_menu__hidden");
+
+  const burgerIcon = document.querySelector(".header__burger_icon");
+  burgerIcon.classList.remove("hide");
+
+  const crossIcon = document.querySelector(".header__burger_cross_icon");
+  crossIcon.classList.add("hide");
+
+  const menu = document.querySelector(".menu__list");
+  menu.classList.add("menu__list_hidden");
+
+  const target = document.querySelector("#action_area");
+
+  // mainDiv.innerHTML = "";
+
+  switch (location.hash) {
+    case "#/trending":
+      getFreshOfArticles("trending", mainDiv);
+      getArticles("trending");
+      // const target = document.querySelector("#action_area");
+      scrollUpButton(target);
+      break;
+
+    case "#/sport":
+      getFreshOfArticles("sport", mainDiv);
+      // const mainDiv = document.querySelector("#action_area");
+      mainDiv.innerHTML = "";
+      getArticles("sport");
+      // const target = document.querySelector("#action_area");
+      scrollUpButton(target);
+      break;
+
+    default:
+      // const mainDiv = document.querySelector("#action_area");
+      mainDiv.innerHTML = "";
+      getArticleById(getPath());
+      break;
   }
 };
 
-async function getFreshOfTrending() {
+async function getFreshOfArticles(category, root) {
+  console.log(root);
+  console.log(category);
   showSpinner();
   const resultOfFetch = await fetch(
-    "https://content.guardianapis.com/search?q=trending&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da"
+    `https://content.guardianapis.com/search?q=${category}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
   )
     .then((response) => {
       return response.json();
@@ -42,31 +74,58 @@ async function getFreshOfTrending() {
   });
 
   const freshTrending = articles[neededIndex];
-  const title = document.querySelector(".main_news__title");
-  title.textContent = freshTrending.fields.headline;
-
-  const text = document.querySelector(".main_news__text");
-  text.textContent = freshTrending.fields.bodyText;
-
-  const date = document.querySelector(".main_news__date");
-  date.textContent = formatDate(freshTrending.webPublicationDate);
-
-  const image = document.querySelector(".main_news__image");
   const imageUrl = freshTrending.fields.main.split('"')[5];
-  image.setAttribute("src", imageUrl);
+
+  root.insertAdjacentHTML(
+    "afterbegin",
+    `<article class="main_news">
+        <h2 class="hidden">Fresh news</h2>
+        <div class="main_news__text_area">
+          <h3 class="main_news__title">${freshTrending.fields.headline}</h3>
+          <p class="main_news__text">${freshTrending.fields.bodyText}</p>
+          <div class="main_news__date_area">
+            <p class="main_news__date">${formatDate(
+              freshTrending.webPublicationDate
+            )}</p>
+            <a class="main_news__link" href="">Read more</a>
+          </div>
+        </div>
+        <div class="main_news__image_area">
+          <img class="main_news__image" src="${imageUrl}"/>
+        </div>
+      </article>`
+  );
+
+  // const title = document.querySelector(".main_news__title");
+  // title.textContent = freshTrending.fields.headline;
+
+  // const text = document.querySelector(".main_news__text");
+  // text.textContent = freshTrending.fields.bodyText;
+
+  // const date = document.querySelector(".main_news__date");
+  // date.textContent = formatDate(freshTrending.webPublicationDate);
+
+  // const image = document.querySelector(".main_news__image");
+  // image.setAttribute("src", imageUrl);
+
+  // const link = document.querySelector(".main_news__link");
+  // link.setAttribute("id", `/${freshTrending.id}`);
+
+  // link.addEventListener("click", (e) => {
+  //   e.preventDefault();
+  //   location.hash = freshTrending.id;
+  // });
 
   const link = document.querySelector(".main_news__link");
-  link.setAttribute("id", `/${freshTrending.id}`);
-
   link.addEventListener("click", (e) => {
     e.preventDefault();
     location.hash = freshTrending.id;
   });
 }
 
-async function getTrending() {
+async function getArticles(category) {
   const resultOfFetch = await fetch(
-    "https://content.guardianapis.com/search?q=trending&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da"
+    `https://content.guardianapis.com/search?q=${category}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
   )
     .then((response) => response.json())
     .then((response) => {
