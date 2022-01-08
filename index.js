@@ -140,8 +140,6 @@ async function getArticleById(id) {
 
   const article = result.fields;
   const { headline, byline, firstPublicationDate, body } = article;
-  console.log(article);
-  console.log(body);
 
   const imageUrl = article.main.split('"')[5];
 
@@ -195,3 +193,23 @@ function formatDate(date) {
 
   return formatDateArr.join(" ");
 }
+// ------------------------------------------------------------
+
+var options = {
+  root: document.querySelector("#scrollArea"),
+  rootMargin: "0px",
+  threshold: 0.2,
+};
+
+const up = document.querySelector("#scrollUpButton");
+console.log(up);
+
+var callback = function (entries, observer) {
+  console.log("пересечение");
+  up.classList.toggle("scroll_up__button_hidden");
+};
+var observer = new IntersectionObserver(callback, options);
+console.log(observer);
+var target = document.querySelector("#action_area");
+console.log(target);
+observer.observe(target);

@@ -256,6 +256,38 @@ select {
   max-height: 243px;
 }
 
+.scroll_up__button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: auto;
+  margin-right: 18.5px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 700px;
+  width: 141px;
+  height: 37px;
+  background: #2f80ed;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.19;
+  color: #ffffff;
+}
+
+.scroll_up__button_hidden {
+  display: none;
+}
+
 .other_news__list {
   display: -webkit-box;
   display: -ms-flexbox;

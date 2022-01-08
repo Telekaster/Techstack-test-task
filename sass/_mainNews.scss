@@ -81,3 +81,31 @@
   max-width: 450px;
   max-height: 243px;
 }
+
+.scroll_up__button {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 18.5px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 700px;
+  width: 141px;
+  height: 37px;
+
+  background: $hoverColor;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+
+  font-family: $mainFont;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.19;
+  color: #ffffff;
+}
+
+.scroll_up__button_hidden {
+  display: none;
+}
