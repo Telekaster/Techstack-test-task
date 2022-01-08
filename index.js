@@ -35,6 +35,13 @@ async function getFreshOFTrending() {
   const resultDate = formatDateArr.join(" ");
   const date = document.querySelector(".main_news__date");
   date.textContent = resultDate;
+
+  const image = document.querySelector(".main_news__image");
+
+  const imageUrl = freshTrending.fields.main.split('"')[5];
+  image.setAttribute("src", imageUrl);
 }
 
-getFreshOFTrending();
+if (window.location.pathname === "/index.html") {
+  getFreshOFTrending();
+}
