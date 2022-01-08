@@ -1,0 +1,25 @@
+.footer_line {
+  border-top: 1px solid #e8e8e8;
+}
+
+.footer {
+  @extend .container;
+  padding: 0;
+  margin-top: 20px;
+  margin-bottom: 19px;
+}
+
+.footer__link {
+  font-family: $mainFont;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.19;
+  color: $menuColor;
+}
+
+.footer__text {
+  font-family: $mainFont;
+  font-size: 14px;
+  line-height: 1.21;
+  color: $menuColor;
+}
