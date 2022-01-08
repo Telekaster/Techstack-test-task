@@ -14,26 +14,43 @@
     <title>News App</title>
   </head>
   <body>
-    <div class="container">
-      <header class="header">
-        <a class="header__link" href="">News App</a>
-        <input
-          class="header__input"
-          type="text"
-          placeholder="Type something to start search"
-        />
-        <button class="header__search_button" type="button">
-          <svg width="17" height="17">
-            <use href="./img/sprite.svg#icon-search"></use>
-          </svg>
-        </button>
-        <button class="header__burger_button" type="button">
-          <svg width="24" height="24">
-            <use href="./img/sprite.svg#icon-burger"></use>
-          </svg>
-        </button>
-      </header>
-    </div>
+    <!-- Header -->
+    <header class="header">
+      <a class="header__link" href="">News App</a>
+      <input
+        class="header__input"
+        type="text"
+        placeholder="Type something to start search"
+      />
+      <button class="header__search_button" type="button">
+        <svg width="17" height="17">
+          <use href="./img/sprite.svg#icon-search"></use>
+        </svg>
+      </button>
+      <button class="header__burger_button" type="button">
+        <svg width="24" height="24">
+          <use href="./img/sprite.svg#icon-burger"></use>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Fresh news -->
+    <article class="main_news">
+      <h2 class="hidden">Fresh news</h2>
+      <div class="main_news__text_area">
+        <h3 class="main_news__title"></h3>
+        <p class="main_news__text">
+          It is a long established fact that a reader will be distracted by the
+          readable content of a page when looking at its layout. The point of
+          using Lorem Ipsum is that....
+        </p>
+        <div class="main_news__date_area">
+          <p class="main_news__date">May 20th 2020</p>
+          <a class="main_news__link" href="#">Read more</a>
+        </div>
+      </div>
+      <img class="main_news__image" src="./img/image 1.jpg" />
+    </article>
     <script src="./index.js"></script>
   </body>
 </html>
