@@ -404,10 +404,10 @@ select {
       -ms-flex-align: center;
           align-items: center;
   margin-left: auto;
-  margin-right: 18.5px;
   position: -webkit-sticky;
   position: sticky;
-  top: 700px;
+  top: 650px;
+  right: 100px;
   width: 141px;
   height: 37px;
   background: #2f80ed;
