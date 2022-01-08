@@ -17,11 +17,15 @@ window.onhashchange = () => {
 };
 
 async function getFreshOfTrending() {
+  showSpinner();
   const resultOfFetch = await fetch(
     "https://content.guardianapis.com/search?q=trending&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da"
   )
-    .then((response) => response.json())
     .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      hideSpinner();
       return response;
     });
 
@@ -135,11 +139,13 @@ async function getTrending() {
 }
 
 async function getArticleById(id) {
+  showSpinner();
   const result = await fetch(
     `https://content.guardianapis.com/search?q=${id}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
   )
     .then((response) => response.json())
     .then((response) => {
+      hideSpinner();
       return response.response.results.find((item) => item.id === id);
     });
 
@@ -207,10 +213,11 @@ function formatDate(date) {
 
   return formatDateArr.join(" ");
 }
+
 // ------------------------------------------------------------
 
 function scrollUpButton(target) {
-  var options = {
+  const options = {
     root: document.querySelector("#scrollArea"),
     rootMargin: "0px",
     threshold: 0.2,
@@ -223,10 +230,23 @@ function scrollUpButton(target) {
     header.scrollIntoView({ block: "center", behavior: "smooth" });
   });
 
-  var callback = function (entries, observer) {
+  const callback = function (entries, observer) {
     up.classList.toggle("scroll_up__button_hidden");
   };
-  var observer = new IntersectionObserver(callback, options);
+  const observer = new IntersectionObserver(callback, options);
 
   observer.observe(target);
+}
+
+// ------------------------------------------------------------
+const loadingDiv = document.querySelector("#loading");
+function showSpinner() {
+  console.log("show");
+  console.log(loadingDiv);
+  loadingDiv.style.visibility = "visible";
+}
+
+function hideSpinner() {
+  console.log("hide");
+  loadingDiv.style.visibility = "hidden";
 }
