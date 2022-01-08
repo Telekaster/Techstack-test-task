@@ -106,6 +106,10 @@
   color: #ffffff;
 }
 
+.scroll_up__button:hover {
+  transform: scale(1.05);
+}
+
 .scroll_up__button_hidden {
   display: none;
 }

@@ -248,10 +248,14 @@ function hideSpinner() {
   loadingDiv.style.visibility = "hidden";
 }
 // -------------------------------------------------------------
+// Бургер_______
 const burger = document.querySelector(".header__burger_button");
 burger.addEventListener("click", () => {
   menuHandler();
 });
+
+const categories = document.querySelector("#categories");
+const categoriesMenu = document.querySelector(".categories_menu");
 
 function menuHandler() {
   const burgerIcon = document.querySelector(".header__burger_icon");
@@ -262,4 +266,21 @@ function menuHandler() {
 
   const menu = document.querySelector(".menu__list");
   menu.classList.toggle("menu__list_hidden");
+
+  categories.classList.remove("categories_active");
+
+  categoriesMenu.classList.add("categories_menu__hidden");
 }
+
+// -------------------------------------------------------------
+// Меню категорий
+categories.addEventListener("click", () => {
+  categories.classList.toggle("categories_active");
+  categoriesMenuHandler();
+});
+
+function categoriesMenuHandler() {
+  categoriesMenu.classList.toggle("categories_menu__hidden");
+}
+
+// -------------------------------------------------------------
