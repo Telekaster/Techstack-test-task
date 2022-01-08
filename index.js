@@ -1,9 +1,14 @@
 location.hash = "/trending";
 
 window.onhashchange = () => {
+  const buttonUp = document.querySelector(".scroll_up__button");
+  buttonUp.classList.toggle("scroll_up__button_hidden");
+
   if (location.hash === "#/trending") {
     getFreshOfTrending();
     getTrending();
+    const target = document.querySelector("#action_area");
+    scrollUpButton(target);
   } else {
     const mainDiv = document.querySelector("#action_area");
     mainDiv.innerHTML = "";
@@ -146,23 +151,32 @@ async function getArticleById(id) {
   const mainDiv = document.querySelector("#action_area");
   mainDiv.insertAdjacentHTML(
     "afterbegin",
-    `<div class='main_article__image_area'> 
+    `
+    <div class='main_article__image_area'> 
       <img class="main_article__image" src=${imageUrl} />
     </div>
-    
+
     <div class="article_container">
       <h1 class="main_article__title">${headline}</h1>
-      <div class="main_article__author_area">
-        <p>
-          <span class="main_article__author">Written by ${byline}</span>
-          <span class='main_article__date'>${formatDate(
-            firstPublicationDate
-          )}</span>
-          </p>
-      </div>
-      <div class="main_article__text">${body}</div>
+
+      <div id="target">
+        <div class="main_article__author_area">
+          <p>
+            <span class="main_article__author">Written by ${byline}</span>
+            <span class='main_article__date'>${formatDate(
+              firstPublicationDate
+            )}</span>
+            </p>
+        </div>
+     
+
+        <div class="main_article__text">${body}</div>
+    </div>
     </div>`
   );
+
+  const target = document.querySelector("#target");
+  scrollUpButton(target);
 }
 
 // -----------------------------------------------------
@@ -195,21 +209,24 @@ function formatDate(date) {
 }
 // ------------------------------------------------------------
 
-var options = {
-  root: document.querySelector("#scrollArea"),
-  rootMargin: "0px",
-  threshold: 0.2,
-};
+function scrollUpButton(target) {
+  var options = {
+    root: document.querySelector("#scrollArea"),
+    rootMargin: "0px",
+    threshold: 0.2,
+  };
 
-const up = document.querySelector("#scrollUpButton");
-console.log(up);
+  const up = document.querySelector(".scroll_up__button");
 
-var callback = function (entries, observer) {
-  console.log("пересечение");
-  up.classList.toggle("scroll_up__button_hidden");
-};
-var observer = new IntersectionObserver(callback, options);
-console.log(observer);
-var target = document.querySelector("#action_area");
-console.log(target);
-observer.observe(target);
+  const header = document.querySelector(".header");
+  up.addEventListener("click", () => {
+    header.scrollIntoView({ block: "center", behavior: "smooth" });
+  });
+
+  var callback = function (entries, observer) {
+    up.classList.toggle("scroll_up__button_hidden");
+  };
+  var observer = new IntersectionObserver(callback, options);
+
+  observer.observe(target);
+}
