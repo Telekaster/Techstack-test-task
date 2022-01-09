@@ -1,18 +1,26 @@
-location.hash = "/trending";
 const trendNews = document.querySelector("#action_area");
 const otherNews = document.querySelector(".other_news");
+const div = document.querySelector(".search__area");
+const searchInput = document.querySelector(".header__input");
+const searchButton = document.querySelector(".header__search_button");
+const closeSearchButton = document.querySelector(".close_search__button");
+const menu = document.querySelector(".menu__list");
+const crossIcon = document.querySelector(".header__burger_cross_icon");
+const burgerIcon = document.querySelector(".header__burger_icon");
+const categoriesMenu = document.querySelector(".categories_menu");
+const buttonUp = document.querySelector(".scroll_up__button");
+
+location.hash = "/trending";
 
 window.onhashchange = () => {
-  const buttonUp = document.querySelector(".scroll_up__button");
   buttonUp.classList.toggle("scroll_up__button_hidden");
-  const categoriesMenu = document.querySelector(".categories_menu");
   categoriesMenu.classList.add("categories_menu__hidden");
-  const burgerIcon = document.querySelector(".header__burger_icon");
   burgerIcon.classList.remove("hide");
-  const crossIcon = document.querySelector(".header__burger_cross_icon");
   crossIcon.classList.add("hide");
-  const menu = document.querySelector(".menu__list");
   menu.classList.add("menu__list_hidden");
+  div.classList.add("search__area_hidden");
+  searchButton.classList.remove("header__search_button_hidden");
+  closeSearchButton.classList.add("close_search__button_hide");
 
   trendNews.innerHTML = "";
   otherNews.innerHTML = "";
@@ -373,7 +381,7 @@ burger.addEventListener("click", () => {
 });
 
 const categories = document.querySelector("#categories");
-const categoriesMenu = document.querySelector(".categories_menu");
+// const categoriesMenu = document.querySelector(".categories_menu");
 
 function menuHandler() {
   const burgerIcon = document.querySelector(".header__burger_icon");
@@ -403,7 +411,7 @@ function categoriesMenuHandler() {
 }
 
 // -------------------------------------------------------------
-
+// Просмотренные ссылки
 function setVisitedLinks(id) {
   const time = new Date().getTime();
 
@@ -434,4 +442,78 @@ function checkVisitedLinks(id) {
     }
   }
   return `<p class="main_news__visited">Unviewed</p>`;
+}
+
+// -------------------------------------------------------------
+// Поиск по статье
+
+searchButton.addEventListener("click", () => {
+  if (searchInput.value) {
+    searchArticle(searchInput.value);
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && searchInput.value.length !== 0) {
+    searchArticle(searchInput.value);
+  }
+
+  if (e.key === "Escape") {
+    // div.classList.add("search__area_hidden");
+    searchInput.value = "";
+    closeSearch();
+  }
+});
+
+async function searchArticle(value) {
+  div.innerHTML = "";
+
+  const result = await fetch(
+    `https://content.guardianapis.com/search?q=${value}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch(() => {
+      console.log("No exact matches found");
+    });
+
+  const list = document.createElement("ul");
+  list.classList.add("search__list");
+
+  const findedArticles = result.response.results;
+  findedArticles.map((article) => {
+    const { headline } = article.fields;
+
+    const item = document.createElement("li");
+    item.setAttribute("id", article.id);
+    item.classList.add("search__item");
+    const link = document.createElement("a");
+    link.classList.add("search__link");
+    link.setAttribute("id", article.id);
+    link.textContent = headline;
+
+    item.appendChild(link);
+    list.appendChild(item);
+  });
+
+  searchButton.classList.add("header__search_button_hidden");
+  closeSearchButton.classList.remove("close_search__button_hide");
+  div.appendChild(list);
+  div.classList.remove("search__area_hidden");
+}
+
+// Закрытие поиска
+closeSearchButton.addEventListener("click", () => {
+  closeSearch();
+});
+
+function closeSearch() {
+  searchButton.classList.remove("header__search_button_hidden");
+  div.classList.add("search__area_hidden");
+  closeSearchButton.classList.add("close_search__button_hide");
+  searchInput.value = "";
 }
