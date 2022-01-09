@@ -305,22 +305,17 @@ function getPath() {
 }
 
 function formatDate(date) {
-  const publicDate = new Date(date);
-  const formatDate = publicDate.toDateString();
-  const formatDateArr = formatDate.split(" ");
-  formatDateArr.splice(0, 1);
+  const publicationDate = new Date(date);
+  const today = new Date();
+  const result = Math.floor(
+    (today.getTime() - publicationDate.getTime()) / 86400000
+  );
 
-  if (formatDateArr[1][1] === "1") {
-    formatDateArr[1] = formatDateArr[1] + "st";
-  } else if (formatDateArr[1][1] === "2") {
-    formatDateArr[1] = formatDateArr[1] + "nd";
-  } else if (formatDateArr[1][1] === "3") {
-    formatDateArr[1] = formatDateArr[1] + "rd";
+  if (result) {
+    return `${result} days ago`;
   } else {
-    formatDateArr[1] = formatDateArr[1] + "th";
+    return "today";
   }
-
-  return formatDateArr.join(" ");
 }
 
 // ------------------------------------------------------------
