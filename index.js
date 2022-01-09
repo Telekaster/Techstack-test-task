@@ -8,14 +8,14 @@ const menu = document.querySelector(".menu__list");
 const crossIcon = document.querySelector(".header__burger_cross_icon");
 const burgerIcon = document.querySelector(".header__burger_icon");
 const categoriesMenu = document.querySelector(".categories_menu");
-const buttonUp = document.querySelector(".scroll_up__button");
+// const buttonUp = document.querySelector(".scroll_up__button");
 
 // let originalText = "";
 
 location.hash = "/trending";
 
 window.onhashchange = () => {
-  buttonUp.classList.toggle("scroll_up__button_hidden");
+  // buttonUp.classList.toggle("scroll_up__button_hidden");
   categoriesMenu.classList.add("categories_menu__hidden");
   burgerIcon.classList.remove("hide");
   crossIcon.classList.add("hide");
@@ -347,28 +347,28 @@ function formatDate(date) {
 }
 
 // ------------------------------------------------------------
+// scroll up button
+const mybutton = document.getElementById("myBtn");
+mybutton.addEventListener("click", () => {
+  topFunction();
+});
 
-function scrollUpButton(target) {
-  const options = {
-    root: document.querySelector("#scrollArea"),
-    rootMargin: "0px",
-    threshold: 0.2,
-  };
+window.onscroll = function () {
+  scrollFunction();
+};
 
-  const up = document.querySelector(".scroll_up__button");
-  up.classList.add("scroll_up__button_hidden");
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    console.log(mybutton);
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
 
-  const header = document.querySelector(".header");
-  up.addEventListener("click", () => {
-    header.scrollIntoView({ block: "center", behavior: "smooth" });
-  });
-
-  const callback = function () {
-    up.classList.toggle("scroll_up__button_hidden");
-  };
-  const observer = new IntersectionObserver(callback, options);
-
-  observer.observe(target);
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 // ------------------------------------------------------------
@@ -669,8 +669,6 @@ function searchByKeyWords(value) {
   } else {
     searchInput.value = "matches not found";
   }
-
-  // return counter;
 }
 
 function cancelSearchByKeyWords() {
@@ -679,6 +677,3 @@ function cancelSearchByKeyWords() {
   const id = hash.join("");
   getArticleById(id);
 }
-
-// -------------------------------------------------------------
-// Совпадения number of matches
