@@ -346,6 +346,14 @@ select {
   cursor: pointer;
 }
 
+.warning {
+  padding-left: 5px;
+  font-family: Inter, sans-serif;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #000000;
+}
+
 .search__link:hover {
   color: #2f80ed;
 }

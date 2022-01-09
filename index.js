@@ -21,6 +21,7 @@ window.onhashchange = () => {
   div.classList.add("search__area_hidden");
   searchButton.classList.remove("header__search_button_hidden");
   closeSearchButton.classList.add("close_search__button_hide");
+  searchInput.value = "";
 
   trendNews.innerHTML = "";
   otherNews.innerHTML = "";
@@ -30,6 +31,7 @@ window.onhashchange = () => {
       getFreshOfArticles("trending", trendNews);
       getArticles("trending", otherNews);
       scrollUpButton(otherNews);
+      setSearchValue();
       break;
 
     case "#/sport":
@@ -459,8 +461,6 @@ window.addEventListener("keydown", (e) => {
   }
 
   if (e.key === "Escape") {
-    // div.classList.add("search__area_hidden");
-    searchInput.value = "";
     closeSearch();
   }
 });
@@ -478,32 +478,45 @@ async function searchArticle(value) {
       return response;
     })
     .catch(() => {
-      console.log("No exact matches found");
+      return "No exact matches found";
     });
+
+  console.log(result);
 
   const list = document.createElement("ul");
   list.classList.add("search__list");
 
   const findedArticles = result.response.results;
-  findedArticles.map((article) => {
-    const { headline } = article.fields;
+  console.log(findedArticles.length);
 
-    const item = document.createElement("li");
-    item.setAttribute("id", article.id);
-    item.classList.add("search__item");
-    const link = document.createElement("a");
-    link.classList.add("search__link");
-    link.setAttribute("id", article.id);
-    link.textContent = headline;
+  if (findedArticles.length > 0) {
+    findedArticles.map((article) => {
+      const { headline } = article.fields;
 
-    item.appendChild(link);
-    list.appendChild(item);
-  });
+      const item = document.createElement("li");
+      item.setAttribute("id", article.id);
+      item.classList.add("search__item");
+      const link = document.createElement("a");
+      link.classList.add("search__link");
+      link.setAttribute("id", article.id);
+      link.textContent = headline;
+
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+  } else {
+    list.insertAdjacentHTML(
+      "afterbegin",
+      '<p class="warning">No exact matches found</p>'
+    );
+  }
 
   searchButton.classList.add("header__search_button_hidden");
   closeSearchButton.classList.remove("close_search__button_hide");
   div.appendChild(list);
   div.classList.remove("search__area_hidden");
+
+  localStorage.setItem("searchValue", value);
 }
 
 // Закрытие поиска
@@ -516,4 +529,14 @@ function closeSearch() {
   div.classList.add("search__area_hidden");
   closeSearchButton.classList.add("close_search__button_hide");
   searchInput.value = "";
+  localStorage.removeItem("searchValue");
+}
+
+function setSearchValue() {
+  if (localStorage.getItem("searchValue")) {
+    if (location.hash === "#/trending") {
+      searchInput.value = localStorage.getItem("searchValue");
+      searchArticle(localStorage.getItem("searchValue"));
+    }
+  }
 }

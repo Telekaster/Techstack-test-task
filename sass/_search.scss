@@ -45,6 +45,14 @@
   cursor: pointer;
 }
 
+.warning {
+  padding-left: 5px;
+  font-family: $mainFont;
+  font-size: 10px;
+  line-height: 1.5;
+  color: $menuColor;
+}
+
 .search__link:hover {
   color: $hoverColor;
 }
