@@ -6,6 +6,7 @@
   position: absolute;
   transform: translate(170px, 265px);
 
+  pointer-events: none;
   overflow: hidden;
 }
 
@@ -20,6 +21,7 @@
   position: relative;
   top: 0px;
   overflow-y: scroll;
+  pointer-events: all;
 
   transition: top 300ms;
 }

@@ -310,6 +310,7 @@ select {
   position: absolute;
   -webkit-transform: translate(170px, 265px);
           transform: translate(170px, 265px);
+  pointer-events: none;
   overflow: hidden;
 }
 
@@ -324,6 +325,7 @@ select {
   position: relative;
   top: 0px;
   overflow-y: scroll;
+  pointer-events: all;
   -webkit-transition: top 300ms;
   transition: top 300ms;
 }
