@@ -271,6 +271,8 @@ async function getArticles(category, root) {
 }
 
 async function getArticleById(id) {
+  trendNews.innerHTML = "";
+  otherNews.innerHTML = "";
   showSpinner();
   const result = await fetch(
     `https://content.guardianapis.com/search?q=${id}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
@@ -315,6 +317,7 @@ async function getArticleById(id) {
 
   const target = document.querySelector("#target");
   scrollUpButton(target);
+  closeSearch();
 }
 
 // -----------------------------------------------------
@@ -450,8 +453,20 @@ function checkVisitedLinks(id) {
 // Поиск по статье
 
 searchButton.addEventListener("click", () => {
-  if (searchInput.value) {
-    searchArticle(searchInput.value);
+  if (
+    location.hash === "#/trending" ||
+    location.hash === "#/sport" ||
+    location.hash === "#/world" ||
+    location.hash === "#/covid" ||
+    location.hash === "#/business" ||
+    location.hash === "#/politics" ||
+    location.hash === "#/science" ||
+    location.hash === "#/religion" ||
+    location.hash === "#/health"
+  ) {
+    if (searchInput.value) {
+      searchArticle(searchInput.value);
+    }
   }
 });
 
@@ -477,17 +492,14 @@ async function searchArticle(value) {
     .then((response) => {
       return response;
     })
-    .catch(() => {
-      return "No exact matches found";
+    .catch((error) => {
+      console.log(error);
     });
-
-  console.log(result);
 
   const list = document.createElement("ul");
   list.classList.add("search__list");
 
   const findedArticles = result.response.results;
-  console.log(findedArticles.length);
 
   if (findedArticles.length > 0) {
     findedArticles.map((article) => {
@@ -500,6 +512,12 @@ async function searchArticle(value) {
       link.classList.add("search__link");
       link.setAttribute("id", article.id);
       link.textContent = headline;
+      link.addEventListener("click", (e) => {
+        getArticleById(article.id);
+        e.preventDefault();
+        location.hash = article.id;
+        setVisitedLinks(article.id);
+      });
 
       item.appendChild(link);
       list.appendChild(item);
