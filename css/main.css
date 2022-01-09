@@ -212,7 +212,7 @@ select {
       -ms-flex-align: center;
           align-items: center;
   position: relative;
-  right: -335px;
+  right: -400px;
 }
 
 .menu__item {
@@ -326,6 +326,7 @@ select {
 }
 
 .main_news__title, h2:not([class]) {
+  margin-top: 41px;
   margin-bottom: 27px;
   font-family: Inter, sans-serif;
   font-weight: bold;

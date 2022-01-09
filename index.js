@@ -108,9 +108,11 @@ async function getFreshOfArticles(category, root) {
   root.insertAdjacentHTML(
     "afterbegin",
     `<article class="main_news">
-        <h2 class="hidden">Fresh news</h2>
         <div class="main_news__text_area">
+        <a id="main_news__title" href="">    
           <h3 class="main_news__title">${freshTrending.fields.headline}</h3>
+        </a>
+     
           <p class="main_news__text">${freshTrending.fields.bodyText}</p>
           <div class="main_news__date_area">
             <p class="main_news__date">${formatDate(
@@ -120,10 +122,23 @@ async function getFreshOfArticles(category, root) {
           </div>
         </div>
         <div class="main_news__image_area">
-          <img class="main_news__image" src="${imageUrl}"/>
+          <a id="main_news__image" href=""> 
+            <img class="main_news__image" src="${imageUrl}"/>
+          </a>
         </div>
       </article>`
   );
+  const title = document.querySelector("#main_news__title");
+  title.addEventListener("click", (e) => {
+    e.preventDefault();
+    location.hash = freshTrending.id;
+  });
+
+  const image = document.querySelector("#main_news__image");
+  image.addEventListener("click", (e) => {
+    e.preventDefault();
+    location.hash = freshTrending.id;
+  });
 
   const link = document.querySelector(".main_news__link");
   link.addEventListener("click", (e) => {
@@ -184,26 +199,51 @@ async function getArticles(category, root) {
     });
 
     const articleTag = document.createElement("article");
-    articleTag.insertAdjacentHTML(
-      "afterbegin",
-      `
-      <div class="other_news__image_area">
-        <img class="other_news__image" src=${img}></img>
-      </div >
+    const otherNewsImageArea = document.createElement("div");
+    otherNewsImageArea.classList.add("other_news__image_area");
 
-      <h3 class='other_news__title'>${headline}</h3>
-      <div class='other_news__text_area'>
-        <p class='other_news__text'>${bodyText}</p>
-      </div>
-      `
+    const imageLink = document.createElement("a");
+
+    imageLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      location.hash = e.target.id;
+    });
+    const otherNewsImage = document.createElement("img");
+    otherNewsImage.setAttribute("id", i.id);
+    otherNewsImage.setAttribute("src", img);
+
+    imageLink.appendChild(otherNewsImage);
+    otherNewsImageArea.appendChild(imageLink);
+
+    const otherNewsTitle = document.createElement("h2");
+    otherNewsTitle.setAttribute("id", i.id);
+    otherNewsTitle.classList.add("other_news__title");
+    otherNewsTitle.textContent = headline;
+
+    const otherNewsTitleLink = document.createElement("a");
+    otherNewsTitleLink.appendChild(otherNewsTitle);
+    otherNewsTitleLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      location.hash = e.target.id;
+    });
+
+    const otherNewsTextArea = document.createElement("div");
+    otherNewsTextArea.classList.add("other_news__text_area");
+    otherNewsTextArea.insertAdjacentHTML(
+      "afterbegin",
+      `<p class='other_news__text'>${bodyText}</p>`
     );
 
     div.appendChild(p);
     div.appendChild(link);
+    articleTag.appendChild(otherNewsImageArea);
+    articleTag.appendChild(otherNewsTitleLink);
+    articleTag.appendChild(otherNewsTextArea);
     articleTag.appendChild(div);
     item.appendChild(articleTag);
     list.appendChild(item);
   });
+
   root.appendChild(list);
 }
 
@@ -344,7 +384,8 @@ function menuHandler() {
 
 // -------------------------------------------------------------
 // Меню категорий_____
-categories.addEventListener("click", () => {
+
+categories.addEventListener("mouseenter", () => {
   categories.classList.toggle("categories_active");
   categoriesMenuHandler();
 });

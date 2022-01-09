@@ -22,6 +22,7 @@
 }
 
 .main_news__title {
+  margin-top: 41px;
   margin-bottom: 27px;
 
   font-family: $mainFont;
@@ -87,7 +88,6 @@
   justify-content: space-evenly;
   align-items: center;
   margin-left: auto;
-  // margin-right: 18.5px;
   position: -webkit-sticky;
   position: sticky;
   top: 650px;
