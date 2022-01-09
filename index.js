@@ -10,6 +10,8 @@ const burgerIcon = document.querySelector(".header__burger_icon");
 const categoriesMenu = document.querySelector(".categories_menu");
 const buttonUp = document.querySelector(".scroll_up__button");
 
+// let originalText = "";
+
 location.hash = "/trending";
 
 window.onhashchange = () => {
@@ -466,16 +468,39 @@ searchButton.addEventListener("click", () => {
     if (searchInput.value) {
       searchArticle(auto_layout_keyboard(searchInput.value));
     }
+  } else {
+    if (searchInput.value) {
+      searchByKeyWords(auto_layout_keyboard(searchInput.value));
+    }
   }
 });
 
 window.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && searchInput.value.length !== 0) {
-    searchArticle(auto_layout_keyboard(searchInput.value));
+    if (
+      location.hash === "#/trending" ||
+      location.hash === "#/sport" ||
+      location.hash === "#/world" ||
+      location.hash === "#/covid" ||
+      location.hash === "#/business" ||
+      location.hash === "#/politics" ||
+      location.hash === "#/science" ||
+      location.hash === "#/religion" ||
+      location.hash === "#/health"
+    ) {
+      if (searchInput.value) {
+        searchArticle(auto_layout_keyboard(searchInput.value));
+      }
+    } else {
+      if (searchInput.value) {
+        searchByKeyWords(auto_layout_keyboard(searchInput.value));
+      }
+    }
   }
 
   if (e.key === "Escape") {
     closeSearch();
+    cancelSearchByKeyWords();
   }
 });
 
@@ -536,9 +561,11 @@ async function searchArticle(value) {
   localStorage.setItem("searchValue", value);
 }
 
+// -------------------------------------------------------------
 // Закрытие поиска
 closeSearchButton.addEventListener("click", () => {
   closeSearch();
+  cancelSearchByKeyWords();
 });
 
 function closeSearch() {
@@ -557,6 +584,9 @@ function setSearchValue() {
     }
   }
 }
+
+// -------------------------------------------------------------
+// Игнорирование раскладки
 
 function auto_layout_keyboard(str) {
   const replacer = {
@@ -605,6 +635,35 @@ function auto_layout_keyboard(str) {
     }
     result = stringArr.join("");
   });
-  console.log(result);
   return result;
+}
+// -------------------------------------------------------------
+// Поиск внутри статьи
+
+function searchByKeyWords(value) {
+  searchButton.classList.add("header__search_button_hidden");
+  closeSearchButton.classList.remove("close_search__button_hide");
+
+  const articleContainer = document.querySelector(".article_container");
+
+  const text = articleContainer.innerHTML;
+  localStorage.setItem("originalText", text);
+
+  const textArr = text.split(" ");
+
+  textArr.map((item, index) => {
+    if (item === value) {
+      textArr[index] = `<span class='text_find'>${item}</span>`;
+    }
+  });
+
+  const markedText = textArr.join(" ");
+  articleContainer.innerHTML = markedText;
+}
+
+function cancelSearchByKeyWords() {
+  const hash = location.hash.split("");
+  hash.splice(0, 1);
+  const id = hash.join("");
+  getArticleById(id);
 }

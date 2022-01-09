@@ -377,6 +377,11 @@ select {
   fill: blue;
 }
 
+.text_find {
+  color: red;
+  background-color: yellow;
+}
+
 .main_news {
   padding: 0;
   margin-bottom: 30px;
