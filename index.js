@@ -83,9 +83,10 @@ window.onhashchange = () => {
       break;
 
     default:
-      trendNews.innerHTML = "";
-      otherNews.innerHTML = "";
-      getArticleById(getPath());
+      // getArticleById(getPath());
+      // trendNews.innerHTML = "";
+      // otherNews.innerHTML = "";
+
       break;
   }
 };
@@ -147,6 +148,7 @@ async function getFreshOfArticles(category, root) {
     e.preventDefault();
     location.hash = freshest.id;
     setVisitedLinks(freshest.id);
+    getArticleById(getPath());
   });
 
   const image = document.querySelector("#main_news__image");
@@ -154,6 +156,7 @@ async function getFreshOfArticles(category, root) {
     e.preventDefault();
     location.hash = freshest.id;
     setVisitedLinks(freshest.id);
+    getArticleById(getPath());
   });
 
   const link = document.querySelector(".main_news__link");
@@ -161,6 +164,7 @@ async function getFreshOfArticles(category, root) {
     e.preventDefault();
     location.hash = freshest.id;
     setVisitedLinks(freshest.id);
+    getArticleById(getPath());
   });
 }
 
@@ -214,6 +218,7 @@ async function getArticles(category, root) {
       e.preventDefault();
       setVisitedLinks(i.id);
       location.hash = i.id;
+      getArticleById(getPath());
     });
 
     const articleTag = document.createElement("article");
@@ -226,6 +231,7 @@ async function getArticles(category, root) {
       e.preventDefault();
       setVisitedLinks(i.id);
       location.hash = e.target.id;
+      getArticleById(getPath());
     });
     const otherNewsImage = document.createElement("img");
     otherNewsImage.setAttribute("id", i.id);
@@ -245,6 +251,7 @@ async function getArticles(category, root) {
       e.preventDefault();
       setVisitedLinks(i.id);
       location.hash = e.target.id;
+      getArticleById(getPath());
     });
 
     const otherNewsTextArea = document.createElement("div");
