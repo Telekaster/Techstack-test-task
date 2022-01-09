@@ -386,7 +386,6 @@ burger.addEventListener("click", () => {
 });
 
 const categories = document.querySelector("#categories");
-// const categoriesMenu = document.querySelector(".categories_menu");
 
 function menuHandler() {
   const burgerIcon = document.querySelector(".header__burger_icon");
@@ -465,14 +464,14 @@ searchButton.addEventListener("click", () => {
     location.hash === "#/health"
   ) {
     if (searchInput.value) {
-      searchArticle(searchInput.value);
+      searchArticle(auto_layout_keyboard(searchInput.value));
     }
   }
 });
 
 window.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && searchInput.value.length !== 0) {
-    searchArticle(searchInput.value);
+    searchArticle(auto_layout_keyboard(searchInput.value));
   }
 
   if (e.key === "Escape") {
@@ -557,4 +556,55 @@ function setSearchValue() {
       searchArticle(localStorage.getItem("searchValue"));
     }
   }
+}
+
+function auto_layout_keyboard(str) {
+  const replacer = {
+    й: "q",
+    ц: "w",
+    у: "e",
+    к: "r",
+    е: "t",
+    н: "y",
+    г: "u",
+    ш: "i",
+    щ: "o",
+    з: "p",
+    х: "[",
+    ъ: "]",
+    ф: "a",
+    ы: "s",
+    в: "d",
+    а: "f",
+    п: "g",
+    р: "h",
+    о: "j",
+    л: "k",
+    д: "l",
+    ж: ";",
+    э: "'",
+    я: "z",
+    ч: "x",
+    с: "c",
+    м: "v",
+    и: "b",
+    т: "n",
+    ь: "m",
+    б: ",",
+    ю: ".",
+    ".": "/",
+  };
+
+  let result = "";
+
+  const stringArr = str.split("");
+
+  stringArr.map((item, index) => {
+    if (replacer[item.toLowerCase()]) {
+      stringArr[index] = replacer[item.toLowerCase()];
+    }
+    result = stringArr.join("");
+  });
+  console.log(result);
+  return result;
 }
