@@ -651,14 +651,26 @@ function searchByKeyWords(value) {
 
   const textArr = text.split(" ");
 
+  let counter = 0;
+
   textArr.map((item, index) => {
     if (item === value) {
       textArr[index] = `<span class='text_find'>${item}</span>`;
+      counter++;
     }
   });
 
   const markedText = textArr.join(" ");
   articleContainer.innerHTML = markedText;
+  console.log(counter);
+
+  if (counter) {
+    searchInput.value = `number of matches ${counter}`;
+  } else {
+    searchInput.value = "matches not found";
+  }
+
+  // return counter;
 }
 
 function cancelSearchByKeyWords() {
@@ -667,3 +679,6 @@ function cancelSearchByKeyWords() {
   const id = hash.join("");
   getArticleById(id);
 }
+
+// -------------------------------------------------------------
+// Совпадения number of matches
