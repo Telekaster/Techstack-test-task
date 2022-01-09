@@ -83,6 +83,16 @@
   max-height: 243px;
 }
 
+.main_news__visited {
+  margin-top: 5px;
+
+  font-family: $mainFont;
+  font-style: italic;
+  font-size: 10px;
+  line-height: 1.5;
+  color: $textColor;
+}
+
 .scroll_up__button {
   display: flex;
   justify-content: space-evenly;

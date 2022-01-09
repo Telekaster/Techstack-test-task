@@ -394,6 +394,15 @@ select {
   max-height: 243px;
 }
 
+.main_news__visited {
+  margin-top: 5px;
+  font-family: Inter, sans-serif;
+  font-style: italic;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #718096;
+}
+
 .scroll_up__button {
   display: -webkit-box;
   display: -ms-flexbox;

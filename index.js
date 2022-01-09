@@ -80,7 +80,7 @@ window.onhashchange = () => {
 
 async function getFreshOfArticles(category, root) {
   showSpinner();
-  const resultOfFetch = await fetch(
+  const resultOfArticles = await fetch(
     `https://content.guardianapis.com/search?q=${category}&show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=5ef33414-1934-47dc-9892-5d09ab7c00da`
   )
     .then((response) => {
@@ -90,7 +90,7 @@ async function getFreshOfArticles(category, root) {
       return response;
     });
 
-  const articles = resultOfFetch.response.results;
+  const articles = resultOfArticles.response.results;
   let fresh = 0;
   let neededIndex = 0;
 
@@ -102,24 +102,25 @@ async function getFreshOfArticles(category, root) {
     }
   });
 
-  const freshTrending = articles[neededIndex];
-  const imageUrl = freshTrending.fields.main.split('"')[5];
+  const freshest = articles[neededIndex];
+  const { headline, bodyText, webPublicationDate } = freshest.fields;
+  const imageUrl = freshest.fields.main.split('"')[5];
 
   root.insertAdjacentHTML(
     "afterbegin",
     `<article class="main_news">
         <div class="main_news__text_area">
         <a id="main_news__title" href="">    
-          <h3 class="main_news__title">${freshTrending.fields.headline}</h3>
+          <h3 class="main_news__title">${headline}</h3>
         </a>
      
-          <p class="main_news__text">${freshTrending.fields.bodyText}</p>
+          <p class="main_news__text">${bodyText}</p>
           <div class="main_news__date_area">
-            <p class="main_news__date">${formatDate(
-              freshTrending.webPublicationDate
-            )}</p>
+            <p class="main_news__date">${formatDate(webPublicationDate)}</p>
+ 
             <a class="main_news__link" href="">Read more</a>
           </div>
+          ${checkVisitedLinks(freshest.id)}
         </div>
         <div class="main_news__image_area">
           <a id="main_news__image" href=""> 
@@ -129,21 +130,25 @@ async function getFreshOfArticles(category, root) {
       </article>`
   );
   const title = document.querySelector("#main_news__title");
+
   title.addEventListener("click", (e) => {
     e.preventDefault();
-    location.hash = freshTrending.id;
+    location.hash = freshest.id;
+    setVisitedLinks(freshest.id);
   });
 
   const image = document.querySelector("#main_news__image");
   image.addEventListener("click", (e) => {
     e.preventDefault();
-    location.hash = freshTrending.id;
+    location.hash = freshest.id;
+    setVisitedLinks(freshest.id);
   });
 
   const link = document.querySelector(".main_news__link");
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    location.hash = freshTrending.id;
+    location.hash = freshest.id;
+    setVisitedLinks(freshest.id);
   });
 }
 
@@ -195,6 +200,7 @@ async function getArticles(category, root) {
     link.textContent = "Read more";
     link.addEventListener("click", (e) => {
       e.preventDefault();
+      setVisitedLinks(i.id);
       location.hash = i.id;
     });
 
@@ -206,6 +212,7 @@ async function getArticles(category, root) {
 
     imageLink.addEventListener("click", (e) => {
       e.preventDefault();
+      setVisitedLinks(i.id);
       location.hash = e.target.id;
     });
     const otherNewsImage = document.createElement("img");
@@ -224,6 +231,7 @@ async function getArticles(category, root) {
     otherNewsTitleLink.appendChild(otherNewsTitle);
     otherNewsTitleLink.addEventListener("click", (e) => {
       e.preventDefault();
+      setVisitedLinks(i.id);
       location.hash = e.target.id;
     });
 
@@ -234,12 +242,17 @@ async function getArticles(category, root) {
       `<p class='other_news__text'>${bodyText}</p>`
     );
 
+    const viewedDiv = document.createElement("div");
+    viewedDiv.classList.add("container");
+    viewedDiv.insertAdjacentHTML("afterbegin", checkVisitedLinks(i.id));
+
     div.appendChild(p);
     div.appendChild(link);
     articleTag.appendChild(otherNewsImageArea);
     articleTag.appendChild(otherNewsTitleLink);
     articleTag.appendChild(otherNewsTextArea);
     articleTag.appendChild(div);
+    articleTag.appendChild(viewedDiv);
     item.appendChild(articleTag);
     list.appendChild(item);
   });
@@ -335,7 +348,7 @@ function scrollUpButton(target) {
     header.scrollIntoView({ block: "center", behavior: "smooth" });
   });
 
-  const callback = function (entries, observer) {
+  const callback = function () {
     up.classList.toggle("scroll_up__button_hidden");
   };
   const observer = new IntersectionObserver(callback, options);
@@ -390,3 +403,35 @@ function categoriesMenuHandler() {
 }
 
 // -------------------------------------------------------------
+
+function setVisitedLinks(id) {
+  const time = new Date().getTime();
+
+  if (!localStorage.getItem("visited")) {
+    const linksObj = { [id]: time };
+    const linksObjJSON = JSON.stringify(linksObj);
+    localStorage.setItem("visited", linksObjJSON);
+  } else {
+    const linksObjJSON = localStorage.getItem("visited");
+    const linksObj = JSON.parse(linksObjJSON);
+    const linksObjModify = { ...linksObj, [id]: time };
+    const linksObjModifyJSON = JSON.stringify(linksObjModify);
+    localStorage.setItem("visited", linksObjModifyJSON);
+  }
+}
+
+function checkVisitedLinks(id) {
+  if (localStorage.getItem("visited")) {
+    const linksObjJSON = localStorage.getItem("visited");
+    const linksObj = JSON.parse(linksObjJSON);
+
+    for (const key in linksObj) {
+      if (key === id) {
+        const now = new Date().getTime();
+        const minutes = Math.floor((now - linksObj[id]) / 60000);
+        return `<p class="main_news__visited">Viewed ${minutes} minutes ago</p>`;
+      }
+    }
+  }
+  return `<p class="main_news__visited">Unviewed</p>`;
+}
