@@ -8,14 +8,10 @@ const menu = document.querySelector(".menu__list");
 const crossIcon = document.querySelector(".header__burger_cross_icon");
 const burgerIcon = document.querySelector(".header__burger_icon");
 const categoriesMenu = document.querySelector(".categories_menu");
-// const buttonUp = document.querySelector(".scroll_up__button");
-
-// let originalText = "";
 
 location.hash = "/trending";
 
 window.onhashchange = () => {
-  // buttonUp.classList.toggle("scroll_up__button_hidden");
   categoriesMenu.classList.add("categories_menu__hidden");
   burgerIcon.classList.remove("hide");
   crossIcon.classList.add("hide");
@@ -83,10 +79,6 @@ window.onhashchange = () => {
       break;
 
     default:
-      // getArticleById(getPath());
-      // trendNews.innerHTML = "";
-      // otherNews.innerHTML = "";
-
       break;
   }
 };
