@@ -28,7 +28,6 @@ window.onhashchange = () => {
     case "#/trending":
       getFreshOfArticles("trending", trendNews);
       getArticles("trending", otherNews);
-      scrollUpButton(otherNews);
       setSearchValue();
       break;
 
@@ -110,7 +109,6 @@ async function getFreshOfArticles(category, root) {
   const freshest = articles[neededIndex];
   const { headline, bodyText, webPublicationDate } = freshest.fields;
   const imageUrl = freshest.fields.main.split('"')[5];
-
   root.insertAdjacentHTML(
     "afterbegin",
     `<article class="main_news">
@@ -121,7 +119,9 @@ async function getFreshOfArticles(category, root) {
      
           <p class="main_news__text">${bodyText}</p>
           <div class="main_news__date_area">
-            <p class="main_news__date">${formatDate(webPublicationDate)}</p>
+            <p class="main_news__date">${formatDate(
+              freshest.webPublicationDate
+            )}</p>
  
             <a class="main_news__link" href="">Read more</a>
           </div>
@@ -337,6 +337,7 @@ function formatDate(date) {
   const result = Math.floor(
     (today.getTime() - publicationDate.getTime()) / 86400000
   );
+  console.log(result);
 
   if (result) {
     return `${result} days ago`;
